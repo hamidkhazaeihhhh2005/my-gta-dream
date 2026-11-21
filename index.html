@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My GTA Dream</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(145deg,#101820,#19352c);
+  color: white;
+  font-family: Arial,sans-serif;
+  text-align: center;
+}
+.card {
+  max-width: 440px;
+  margin: 25px auto;
+  padding: 25px 18px;
+  background: #202d2b;
+  border: 1px solid #426b55;
+  border-radius: 20px;
+}
+h1 { color: #8df5a7; }
+p { line-height: 1.7; color: #d6e2dc; }
+.goal {
+  background: #14231e;
+  padding: 18px;
+  border-radius: 14px;
+  margin: 22px 0;
+}
+.amount {
+  font-size: 32px;
+  font-weight: bold;
+  color: #8df5a7;
+}
+.network {
+  margin-top: 24px;
+  padding: 18px 12px;
+  background: #14231e;
+  border-radius: 14px;
+}
+.address {
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  color: #b9f6ca;
+  padding: 12px 5px;
+  line-height: 1.6;
+}
+button {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  background: #8df5a7;
+  color: #102018;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+img {
+  width: 170px;
+  height: 170px;
+  margin: 16px auto;
+  padding: 8px;
+  background: white;
+  border-radius: 10px;
+}
+.status {
+  color: #8df5a7;
+  font-size: 13px;
+  min-height: 18px;
+}
+.small { font-size: 12px; color: #aabbb2; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>🎮 My GTA Dream</h1>
+
+  <p>
+    I'm working toward my dream of experiencing GTA,
+    starting a gaming YouTube channel, and supporting my family.
+    Life has been difficult, but I won't give up.
+  </p>
+
+  <div class="goal">
+    <p>My Fundraising Goal</p>
+    <div class="amount">$1,000</div>
+    <p>Every voluntary contribution means a lot ❤️</p>
+  </div>
+
+  <h2>Support My Journey with USDT</h2>
+
+  <div class="network">
+    <h3>🟡 USDT - BEP20</h3>
+    <p>Network: BNB Smart Chain (BEP20)</p>
+    <div class="address" id="bep">
+      0x63296281E5Cdc92c6BBB5ebb471Fc561dD358E3C
+    </div>
+    <button onclick="copyAddress('bep','bepStatus')">
+      Copy BEP20 Address
+    </button>
+    <div class="status" id="bepStatus"></div>
+    <img id="bepQR" alt="BEP20 QR Code">
+  </div>
+
+  <div class="network">
+    <h3>🔵 USDT - TRC20</h3>
+    <p>Network: TRON (TRC20)</p>
+    <div class="address" id="trc">
+      TXSap3DtFfdJZK3o9qLQNDMQSGqiqY3vw9
+    </div>
+    <button onclick="copyAddress('trc','trcStatus')">
+      Copy TRC20 Address
+    </button>
+    <div class="status" id="trcStatus"></div>
+    <img id="trcQR" alt="TRC20 QR Code">
+  </div>
+
+  <p class="small">
+    Please select the correct network before sending USDT.
+    Sending through the wrong network may result in loss of funds.
+  </p>
+
+  <p class="small">
+    This is a personal fundraising page.
+    Contributions are voluntary.
+  </p>
+</div>
+
+<script>
+const addresses = {
+  bep: "0x63296281E5Cdc92c6BBB5ebb471Fc561dD358E3C",
+  trc: "TXSap3DtFfdJZK3o9qLQNDMQSGqiqY3vw9"
+};
+
+function copyAddress(network, statusId) {
+  const address = addresses[network];
+  const status = document.getElementById(statusId);
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(address)
+      .then(() => status.textContent = "Address copied successfully! ✓")
+      .catch(() => fallbackCopy(address, status));
+  } else {
+    fallbackCopy(address, status);
+  }
+}
+
+function fallbackCopy(address, status) {
+  const field = document.createElement("textarea");
+  field.value = address;
+  field.style.position = "fixed";
+  field.style.opacity = "0";
+  document.body.appendChild(field);
+  field.select();
+
+  try {
+    const copied = document.execCommand("copy");
+    status.textContent = copied
+      ? "Address copied successfully! ✓"
+      : "Please copy the address manually.";
+  } catch (e) {
+    status.textContent = "Please copy the address manually.";
+  }
+
+  document.body.removeChild(field);
+}
+
+document.getElementById("bepQR").src =
+  "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" +
+  encodeURIComponent(addresses.bep);
+
+document.getElementById("trcQR").src =
+  "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" +
+  encodeURIComponent(addresses.trc);
+</script>
+
+</body>
+</html>
